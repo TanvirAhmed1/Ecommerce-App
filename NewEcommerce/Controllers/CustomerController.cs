@@ -7,15 +7,16 @@ using Ecommerce.Database.Database;
 using NewEcommerce.Models;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.BLL;
+using Ecommerce.BLL.Abstractions;
 
 namespace NewEcommerce.Controllers
-{
+{ 
     public class CustomerController : Controller
     {
-        CustomerManager _customerManager;
-        public CustomerController()
+        ICustomerManager _customerManager;
+        public CustomerController(ICustomerManager customerManager)
         {
-            _customerManager = new CustomerManager();
+            _customerManager = customerManager;
         }
         // GET: /<controller>/
         public IActionResult Index()

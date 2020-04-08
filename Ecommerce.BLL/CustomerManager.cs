@@ -1,5 +1,7 @@
-﻿using Ecommerce.Models.EntityModels;
+﻿using Ecommerce.BLL.Abstractions;
+using Ecommerce.Models.EntityModels;
 using Ecommerce.Repositories;
+using Ecommerce.Repositories.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +9,12 @@ using System.Text;
 namespace Ecommerce.BLL
 {
     
-    public class CustomerManager
+    public class CustomerManager:ICustomerManager
     {
-        CustomerRepository _customerRepository;
-        public CustomerManager()
+        ICustomerRepository _customerRepository;
+        public CustomerManager(ICustomerRepository customerRepository)
         {
-            _customerRepository = new CustomerRepository();
+            _customerRepository = customerRepository;
         }
         public bool Add(Customer entity)
         {

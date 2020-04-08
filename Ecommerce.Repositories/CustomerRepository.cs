@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Ecommerce.Repositories.Abstractions;
 
 namespace Ecommerce.Repositories
 {
-    public class CustomerRepository
+    public class CustomerRepository:ICustomerRepository
     {
         NewEcommerceDbContext db; 
-        public CustomerRepository()
+        public CustomerRepository(DbContext dbContext)
         {
-            db = new NewEcommerceDbContext();
+            db = (NewEcommerceDbContext)dbContext;
         }
         public bool Add(Customer entity)
         {
