@@ -13,9 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Models", "Ecommer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Database", "Ecommerce.Database\Ecommerce.Database.csproj", "{C4F28DFB-2804-4D5B-BF00-1CE80E26DEA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.BLL.Abstractions", "Ecommerce.BLL.Abstractions\Ecommerce.BLL.Abstractions.csproj", "{1C7DB38E-AF0C-485E-8241-B4E7C118361B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.BLL.Abstractions", "Ecommerce.BLL.Abstractions\Ecommerce.BLL.Abstractions.csproj", "{1C7DB38E-AF0C-485E-8241-B4E7C118361B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Repositories.Abstractions", "Ecommerce.Repositories.Abstractions\Ecommerce.Repositories.Abstractions.csproj", "{770B7F69-740C-4F07-8652-85D22811D7C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Repositories.Abstractions", "Ecommerce.Repositories.Abstractions\Ecommerce.Repositories.Abstractions.csproj", "{770B7F69-740C-4F07-8652-85D22811D7C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A32E867C-3645-40BB-87F3-E7CC99D79D31}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

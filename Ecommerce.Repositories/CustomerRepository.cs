@@ -6,35 +6,24 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Ecommerce.Repositories.Abstractions;
+using Ecommerce.Repositories.Abstractions.Base;
 
 namespace Ecommerce.Repositories
 {
-    public class CustomerRepository:ICustomerRepository
+    public class CustomerRepository:Repository<Customer>,ICustomerRepository
     {
         NewEcommerceDbContext db; 
-        public CustomerRepository(DbContext dbContext)
+        public CustomerRepository(DbContext dbContext): base(dbContext)
         {
             db = (NewEcommerceDbContext)dbContext;
         }
-        public bool Add(Customer entity)
-        {
-            db.Customers.Add(entity);
-            return db.SaveChanges() > 0;
-        }
-        public bool Update(Customer entity)
-        {
-            db.Entry(entity).State = EntityState.Modified;
-            return db.SaveChanges() >0;
-        }
-        public ICollection<Customer> GetAll()
+        
+        
+        public override ICollection<Customer> GetAll()
         {
             return db.Customers.Where(c => c.IsDeleted == false).ToList();
         }
-        public bool Remove(Customer customer)
-        {
-            customer.IsDeleted = true;
-            return Update(customer);
-        }
+        
 
         public Customer GetById(int? id)
         {
@@ -42,7 +31,7 @@ namespace Ecommerce.Repositories
             {
                 return null;
             }
-            return db.Customers.Find(id);
+            return GetFirstOrDefault(c=> c.Id == id);
         }
     }
 }

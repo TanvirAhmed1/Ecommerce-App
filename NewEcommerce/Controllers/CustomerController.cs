@@ -8,15 +8,19 @@ using NewEcommerce.Models;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.BLL;
 using Ecommerce.BLL.Abstractions;
+using Ecommerce.Models.ResponseModels;
+using AutoMapper;
 
 namespace NewEcommerce.Controllers
 { 
     public class CustomerController : Controller
     {
         ICustomerManager _customerManager;
-        public CustomerController(ICustomerManager customerManager)
+        IMapper _mapper;
+        public CustomerController(ICustomerManager customerManager, IMapper mapper)
         {
             _customerManager = customerManager;
+            _mapper = mapper;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -26,17 +30,19 @@ namespace NewEcommerce.Controllers
 
         public IActionResult Create()
         {
-            Customer customer = new Customer();
-            customer.CustomerList = _customerManager.GetAll();
+            CustomerCreateViewModel customer = new CustomerCreateViewModel();
+            customer.CustomerList = _customerManager.GetAll().Select(c =>_mapper.Map<CustomerResponseModel>(c)).ToList();
 
             return View(customer);
         }
 
         [HttpPost]
-        public IActionResult Create(Customer customer)
+        public IActionResult Create(CustomerCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
+                Customer customer = _mapper.Map<Customer>(model);
+                
                 bool isSaved = _customerManager.Add(customer);
                 if (isSaved)
                 {

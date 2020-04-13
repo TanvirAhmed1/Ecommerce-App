@@ -10,6 +10,7 @@ namespace Ecommerce.Database.Database
     public class NewEcommerceDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

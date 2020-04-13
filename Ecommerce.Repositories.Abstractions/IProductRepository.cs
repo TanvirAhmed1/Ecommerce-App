@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Ecommerce.Repositories.Abstractions
 {
-    public interface ICustomerRepository:IRepository<Customer>
+    public interface IProductRepository:IRepository<Product>
     {
-        Customer GetById(int? id);
+        Product GetById(int? id);
     }
 }
