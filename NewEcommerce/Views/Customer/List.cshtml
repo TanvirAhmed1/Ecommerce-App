@@ -13,6 +13,7 @@
                     Phone
                 </th>
                 <th>Address</th>
+                <th>Customer Type</th>
                 <th>Actions</th>
             </tr>
 
@@ -26,6 +27,7 @@
                     <td>@customer.Name</td>
                     <td>@customer.Phone</td>
                     <td>@customer.Address</td>
+                    <td>@(customer.CustomerType==null? "N/A":customer.CustomerType.Name) </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@customer.Id" class="btn btn-primary">Edit</a> |
                         <a asp-action="Delete" asp-route-id="@customer.Id"class="btn btn-danger">Delete</a>

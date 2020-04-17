@@ -4,13 +4,10 @@ using System.Text;
 
 namespace Ecommerce.Models.EntityModels
 {
-    public class Product
+    public class Catagory
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
-        public double Price { get; set; }
-        public int? CatagoryId { get; set; }
-        public Catagory Catagory { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

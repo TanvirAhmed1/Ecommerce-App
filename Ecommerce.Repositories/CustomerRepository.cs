@@ -21,7 +21,9 @@ namespace Ecommerce.Repositories
         
         public override ICollection<Customer> GetAll()
         {
-            return db.Customers.Where(c => c.IsDeleted == false).ToList();
+            return db.Customers
+                .Include(c=> c.CustomerType)
+                .Where(c => c.IsDeleted == false).ToList();
         }
         
 

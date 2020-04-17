@@ -4,14 +4,16 @@ using Ecommerce.Database.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace NewEcommerce.Migrations
 {
     [DbContext(typeof(NewEcommerceDbContext))]
-    partial class NewEcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200414153034_Catagory_Created_O2M_Product")]
+    partial class Catagory_Created_O2M_Product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace NewEcommerce.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerTypeId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -59,24 +58,7 @@ namespace NewEcommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerTypeId");
-
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.EntityModels.CustomerType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerType");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.EntityModels.Product", b =>
@@ -103,13 +85,6 @@ namespace NewEcommerce.Migrations
                     b.HasIndex("CatagoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.EntityModels.Customer", b =>
-                {
-                    b.HasOne("Ecommerce.Models.EntityModels.CustomerType", "CustomerType")
-                        .WithMany()
-                        .HasForeignKey("CustomerTypeId");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.EntityModels.Product", b =>

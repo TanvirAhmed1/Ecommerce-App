@@ -1,14 +1,13 @@
-﻿using Ecommerce.Models.Contracts;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Models.EntityModels
+namespace NewEcommerce.Models
 {
-    public class Customer: IDeletable
+    public class CustomerEditViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -17,12 +16,6 @@ namespace Ecommerce.Models.EntityModels
         public string Address { get; set; }
         public bool IsDeleted { get; set; }
         public int? CustomerTypeId { get; set; }
-        public virtual CustomerType CustomerType { get; set; }
-
-        public bool Delete()
-        {
-            IsDeleted = true;
-            return true;
-        }
+        public ICollection<SelectListItem> CustomerTypeItems { get; set; }
     }
 }

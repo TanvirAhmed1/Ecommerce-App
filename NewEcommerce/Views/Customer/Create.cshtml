@@ -10,6 +10,11 @@
         </div>
         <div class="card-body">
             <form method="post">
+                <label for="CustomerType">Customer Type</label>
+                <select type="text" asp-for="CustomerTypeId" asp-items="Model.CustomerTypeItems" class="form-control">
+                    <option value="">Select....</option>
+                </select>
+                <span asp-validation-for="CustomerTypeId" class="text-danger"></span>
                 <label for="Name">Name</label>
                 <input type="text" asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>

@@ -11,6 +11,7 @@ namespace Ecommerce.Database.Database
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Catagory> Catagories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
