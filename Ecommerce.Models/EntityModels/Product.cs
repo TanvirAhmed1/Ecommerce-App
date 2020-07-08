@@ -11,6 +11,6 @@ namespace Ecommerce.Models.EntityModels
         public string Code { get; set; }
         public double Price { get; set; }
         public int? CatagoryId { get; set; }
-        public Catagory Catagory { get; set; }
+        public virtual Catagory Catagory { get; set; }
     }
 }

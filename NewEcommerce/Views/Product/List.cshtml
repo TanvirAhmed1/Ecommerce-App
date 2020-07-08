@@ -1,0 +1,38 @@
+﻿@using Ecommerce.Models.EntityModels;
+@model List<Ecommerce.Models.EntityModels.Product>
+
+
+<h1>Product List</h1>
+<table class="table table-striped table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Code
+            </th>
+            <th>Price</th>
+            <th>Catagory</th>
+            <th>Actions</th>
+        </tr>
+
+
+    </thead>
+    <tbody>
+
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Code</td>
+                <td>@product.Price</td>
+                <td>@(product.Catagory == null ? "N/A" : product.Catagory.Name) </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

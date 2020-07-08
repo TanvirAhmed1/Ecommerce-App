@@ -2,92 +2,123 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Database.Database;
+using NewEcommerce.Models;
+using Ecommerce.Models.EntityModels;
+using Ecommerce.BLL;
+using Ecommerce.BLL.Abstractions;
+using Ecommerce.Models.ResponseModels;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NewEcommerce.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
-        public ActionResult Index()
+        IProductManager _productManager;
+        ICatagoryManager _catagoryManager;
+        IMapper _mapper;
+        public ProductController(IProductManager productManager, IMapper mapper, ICatagoryManager catagoryManager)
+        {
+            _productManager = productManager;
+            _catagoryManager = catagoryManager;
+            _mapper = mapper;
+        }
+        // GET: /<controller>/
+        public IActionResult Index()
         {
             return View();
         }
 
-        // GET: Product/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Create()
         {
-            return View();
+            ProductCreateViewModel product = new ProductCreateViewModel();
+            product.CustomerList = _productManager.GetAll().Select(c => _mapper.Map<ProductResponseModel>(c)).ToList();
+            product.CatagoryItems = _catagoryManager
+                .GetAll()
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).ToList();
+            return View(product);
         }
 
-        // GET: Product/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Product/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(ProductCreateViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                Product product = _mapper.Map<Product>(model);
 
-                return RedirectToAction(nameof(Index));
+                bool isSaved = _productManager.Add(product);
+                if (isSaved)
+                {
+                    return RedirectToAction("List", "Product", null);
+                }
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Product/Edit/5
-        public ActionResult Edit(int id)
-        {
             return View();
         }
 
-        // POST: Product/Edit/5
+
+        public IActionResult List()
+        {
+            // get all customers from db 
+            ICollection<Product> products = _productManager.GetAll();
+
+
+
+            //show the customers in VIEW
+            return View(products);
+        }
+        public IActionResult Edit(int? id)
+        {
+            var model = new ProductEditViewModel();
+            model.CatagoryItems = _catagoryManager
+                .GetAll()
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).ToList();
+            if (id != null && id > 0)
+            {
+                Product existingProduct = _productManager.GetById(id);
+                if (existingProduct != null)
+                {
+                    _mapper.Map<Product, ProductEditViewModel>(existingProduct, model);
+                }
+            }
+
+
+            return View(model);
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(Product product)
         {
-            try
-            {
-                // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            bool IsUpdated = _productManager.Update(product);
+            if (IsUpdated)
             {
-                return View();
+                return RedirectToAction("List");
             }
+            return View(product);
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id != null && id > 0)
+            {
+                var product = _productManager.GetById(id);
+                bool isSaved = _productManager.Remove(product);
+                if (isSaved)
+                {
+                    return RedirectToAction("List");
+                }
+            }
+            return RedirectToAction("List");
         }
 
-        // GET: Product/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Product/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

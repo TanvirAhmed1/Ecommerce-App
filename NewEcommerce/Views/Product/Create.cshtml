@@ -1,0 +1,32 @@
+﻿@model NewEcommerce.Models.ProductCreateViewModel
+@{
+    Layout = "~/Views/Shared/_NiceAdmin.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Product Create</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <label for="Catagory">Catagory</label>
+            <select type="text" asp-for="CatagoryId" asp-items="Model.CatagoryItems" class="form-control">
+                <option value="">Select....</option>
+            </select>
+            <span asp-validation-for="CatagoryId" class="text-danger"></span>
+            <label for="Name">Name</label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <label for="Code">Code</label>
+            <input type="text" asp-for="Code" class="form-control" />
+
+            <label for="Price">Price</label>
+            <input type="text" asp-for="Price" class="form-control" />
+
+            <input type="submit" value="Save" class="btn btn-primary">
+        </form>
+        @*@<partial name="~/Views/Shared/PartialViews/Customer/_CustomerCreate.cshtml" model="Model.CustomerList"/>*@
+
+    </div>
+</div>}

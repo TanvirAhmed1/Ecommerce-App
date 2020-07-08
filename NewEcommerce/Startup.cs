@@ -35,6 +35,10 @@ namespace NewEcommerce
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerTypeRepository, CustomerTypeRepository>();
             services.AddTransient<ICustomerTypeManager, CustomerTypeManager>();
+            services.AddTransient<IProductManager, ProductManager>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ICatagoryRepository, CatagoryRepository>();
+            services.AddTransient<ICatagoryManager, CatagoryManager>();
             services.AddTransient<DbContext, NewEcommerceDbContext>();
             services.AddAutoMapper(typeof(Startup).Assembly);
         }
