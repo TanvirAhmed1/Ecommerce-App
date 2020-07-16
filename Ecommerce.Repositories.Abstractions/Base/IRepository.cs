@@ -11,6 +11,6 @@ namespace Ecommerce.Repositories.Abstractions.Base
         bool Update(T entity);
         bool Remove(T entity);
         ICollection<T> GetAll();
-        T GetFirstOfDefault(Expression<Func<T,bool>>predicate);
+        T GetFirstOrDefault(Expression<Func<T,bool>>predicate);
     }
 }

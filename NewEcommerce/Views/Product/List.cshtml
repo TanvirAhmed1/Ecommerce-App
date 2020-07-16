@@ -7,13 +7,16 @@
     <thead>
         <tr>
             <th>
-                Name
-            </th>
-            <th>
                 Code
             </th>
-            <th>Price</th>
+            <th>
+                Name
+            </th>
             <th>Catagory</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Price</th>
+            
             <th>Actions</th>
         </tr>
 
@@ -24,15 +27,21 @@
         @foreach (var product in Model)
         {
             <tr>
-                <td>@product.Name</td>
                 <td>@product.Code</td>
+                <td>@product.Name</td>
+
+                <td>@(product.Catagory==null? "N/A":product.Catagory.Name)</td>
+
+                <td>@product.Quantity</td>
                 <td>@product.Price</td>
-                <td>@(product.Catagory == null ? "N/A" : product.Catagory.Name) </td>
+                <td>@((product.Quantity) * (product.Price))</td>
+                
                 <td>
                     <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
+
         }
     </tbody>
 </table>

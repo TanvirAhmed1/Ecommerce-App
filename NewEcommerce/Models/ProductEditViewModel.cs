@@ -16,5 +16,6 @@ namespace NewEcommerce.Models
         public string Price { get; set; }
         public int? CatagoryId { get; set; }
         public ICollection<SelectListItem> CatagoryItems { get; set; }
+        public int Quantity { get; set; }
     }
 }

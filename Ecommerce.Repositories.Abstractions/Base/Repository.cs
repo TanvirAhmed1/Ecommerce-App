@@ -56,9 +56,6 @@ namespace Ecommerce.Repositories.Abstractions.Base
             return Table.FirstOrDefault(predicate);
         }
 
-        public T GetFirstOfDefault(Expression<Func<T, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

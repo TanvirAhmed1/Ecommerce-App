@@ -20,13 +20,14 @@
             <span asp-validation-for="Name" class="text-danger"></span>
             <label for="Code">Code</label>
             <input type="text" asp-for="Code" class="form-control" />
-
+            <label for="Quantity">Quantity</label>
+            <input type="text" asp-for="Quantity" class="form-control" />
             <label for="Price">Price</label>
             <input type="text" asp-for="Price" class="form-control" />
 
             <input type="submit" value="Save" class="btn btn-primary">
         </form>
-        @*@<partial name="~/Views/Shared/PartialViews/Customer/_CustomerCreate.cshtml" model="Model.CustomerList"/>*@
+       
 
     </div>
-</div>}
+</div>
