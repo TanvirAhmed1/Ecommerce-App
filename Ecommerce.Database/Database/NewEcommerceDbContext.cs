@@ -21,10 +21,7 @@ namespace Ecommerce.Database.Database
             optionsBuilder.UseSqlServer(connectionString);
         }
 
-        internal List<Customer> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
 

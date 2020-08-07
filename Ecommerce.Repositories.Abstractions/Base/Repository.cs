@@ -8,16 +8,17 @@ using System.Text;
 
 namespace Ecommerce.Repositories.Abstractions.Base
 {
-    public abstract class Repository<T>:IRepository<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
         DbContext _db;
-        private DbSet<T> Table{
+
+        private DbSet<T> Table
+        {
             get
             {
                 return _db.Set<T>();
             }
         }
-
         public Repository(DbContext db)
         {
             _db = db;
@@ -26,7 +27,6 @@ namespace Ecommerce.Repositories.Abstractions.Base
         {
             Table.Add(entity);
             return _db.SaveChanges() > 0;
-
         }
         public virtual bool Update(T entity)
         {
@@ -35,7 +35,7 @@ namespace Ecommerce.Repositories.Abstractions.Base
         }
         public virtual bool Remove(T entity)
         {
-            if(entity is IDeletable)
+            if (entity is IDeletable)
             {
                 var thisEntity = (IDeletable)entity;
                 thisEntity.Delete();
@@ -51,11 +51,9 @@ namespace Ecommerce.Repositories.Abstractions.Base
         {
             return Table.ToList();
         }
-        public virtual T GetFirstOrDefault(Expression<Func<T,bool>>predicate)
+        public virtual T GetFirstOrDefault(Expression<Func<T, bool>> predicate)
         {
             return Table.FirstOrDefault(predicate);
         }
-
-        
     }
 }

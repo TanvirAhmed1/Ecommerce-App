@@ -1,5 +1,7 @@
 ﻿using Ecommerce.BLL.Abstractions;
+using Ecommerce.BLL.Abstractions.Base;
 using Ecommerce.Models.EntityModels;
+using Ecommerce.Models.RequestModels;
 using Ecommerce.Repositories;
 using Ecommerce.Repositories.Abstractions;
 using System;
@@ -8,38 +10,27 @@ using System.Text;
 
 namespace Ecommerce.BLL
 {
-    
-    public class CustomerManager:ICustomerManager
+
+    public class CustomerManager : Manager<Customer>, ICustomerManager
     {
         ICustomerRepository _customerRepository;
-        public CustomerManager(ICustomerRepository customerRepository)
+        public CustomerManager(ICustomerRepository customerManager) : base(customerManager)
         {
-            _customerRepository = customerRepository;
-        }
-        public bool Add(Customer entity)
-        {
-            if(entity.Name == null || entity.Name == "")
-            {
-                return false;
-            }
-            return _customerRepository.Add(entity);
-        }
-        public bool Update(Customer customer)
-        {
-            return _customerRepository.Update(customer);
-        }
-        public bool Remove(Customer customer)
-        {
-            return _customerRepository.Remove(customer);
-        }
-        public ICollection<Customer> GetAll()
-        {
-            return _customerRepository.GetAll();
+            _customerRepository = customerManager;
         }
 
         public Customer GetById(int? id)
         {
-            return _customerRepository.GetById(id);
+            if (id != null)
+            {
+                return _customerRepository.GetById(id);
+            }
+            return null;
+        }
+
+        public ICollection<Customer> GetByRequest(CustomerRequestModel customer)
+        {
+            return _customerRepository.GetByRequest(customer);
         }
     }
 }

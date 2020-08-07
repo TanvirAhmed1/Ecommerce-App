@@ -1,4 +1,5 @@
 ﻿using Ecommerce.BLL.Abstractions;
+using Ecommerce.BLL.Abstractions.Base;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Repositories.Abstractions;
 using System;
@@ -7,16 +8,21 @@ using System.Text;
 
 namespace Ecommerce.BLL
 {
-    public class CatagoryManager : ICatagoryManager
+    public class CatagoryManager : Manager<Catagory>, ICatagoryManager
     {
         ICatagoryRepository _catagoryRepository;
-        public CatagoryManager(ICatagoryRepository catagoryRepo)
+        public CatagoryManager(ICatagoryRepository catagoryRepository) : base(catagoryRepository)
         {
-            _catagoryRepository = catagoryRepo;
+            _catagoryRepository = catagoryRepository;
         }
-        public ICollection<Catagory> GetAll()
+
+        public Catagory GetById(int? id)
         {
-            return _catagoryRepository.GetAll();
+            if (id != null)
+            {
+                return _catagoryRepository.GetById(id);
+            }
+            return null;
         }
     }
 }

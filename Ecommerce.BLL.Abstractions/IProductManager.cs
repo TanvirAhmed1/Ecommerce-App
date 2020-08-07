@@ -1,16 +1,13 @@
-﻿using Ecommerce.Models.EntityModels;
+﻿using Ecommerce.BLL.Abstractions.Base;
+using Ecommerce.Models.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Ecommerce.BLL.Abstractions
 {
-    public interface IProductManager
+    public interface IProductManager : IManager<Product>
     {
-        bool Add(Product entity);
-        bool Update(Product entity);
-        bool Remove(Product entity);
-        ICollection<Product> GetAll();
         Product GetById(int? id);
     }
 }

@@ -10,13 +10,13 @@ namespace NewEcommerce.Models
 {
     public class ProductCreateViewModel
     {
-        [Required]
         public string Name { get; set; }
-        public string Code { get; set; }
         public string Price { get; set; }
-        public int? CatagoryId { get; set; }
         public int Quantity { get; set; }
-        public ICollection<ProductResponseModel> CustomerList { get; set; }
-        public ICollection<SelectListItem> CatagoryItems { get; set; }
+        public string Code { get; set; }
+        public int? CategoryId { get; set; }
+        public byte[] Image { get; set; }
+
+        public ICollection<SelectListItem> CatagoryItem { get; set; }
     }
 }

@@ -8,6 +8,6 @@ namespace Ecommerce.Repositories.Abstractions
 {
     public interface ICatagoryRepository : IRepository<Catagory>
     {
-
+        Catagory GetById(int? id);
     }
 }

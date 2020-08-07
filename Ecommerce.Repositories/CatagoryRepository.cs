@@ -9,12 +9,22 @@ using System.Text;
 
 namespace Ecommerce.Repositories
 {
-    public class CatagoryRepository : Repository<Catagory>, ICatagoryRepository
+    public class CategoryRepository : Repository<Catagory>, ICatagoryRepository
     {
-        NewEcommerceDbContext _db;
-        public CatagoryRepository(DbContext db) : base(db)
+        NewEcommerceDbContext db;
+        public CategoryRepository(DbContext _db) : base(_db)
         {
-            _db = (NewEcommerceDbContext)db;
+            db = (NewEcommerceDbContext)_db;
+        }
+
+
+        public Catagory GetById(int? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            return GetFirstOrDefault(c => c.Id == id);
         }
     }
 }

@@ -13,16 +13,14 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NewEcommerce.Controllers
-{ 
+{
     public class CustomerController : Controller
     {
         ICustomerManager _customerManager;
-        ICustomerTypeManager _customerTypeManager;
         IMapper _mapper;
-        public CustomerController(ICustomerManager customerManager, IMapper mapper, ICustomerTypeManager customerTypeManager)
+        public CustomerController(ICustomerManager customerManager, IMapper mapper)
         {
             _customerManager = customerManager;
-            _customerTypeManager = customerTypeManager;
             _mapper = mapper;
         }
         // GET: /<controller>/
@@ -34,28 +32,24 @@ namespace NewEcommerce.Controllers
         public IActionResult Create()
         {
             CustomerCreateViewModel customer = new CustomerCreateViewModel();
-            customer.CustomerList = _customerManager.GetAll().Select(c =>_mapper.Map<CustomerResponseModel>(c)).ToList();
-            customer.CustomerTypeItems = _customerTypeManager
-                .GetAll()
-                .Select(c=> new SelectListItem() {
-                Text =c.Name, 
-                Value =c.Id.ToString() 
-            }).ToList();
+            customer.CustomerList = _customerManager.GetAll().Select(cust => _mapper.Map<CustomerResponseModel>(cust)).ToList();
             return View(customer);
         }
 
         [HttpPost]
-        public IActionResult Create(CustomerCreateViewModel model)
+        public IActionResult Create(Customer model)
         {
+
             if (ModelState.IsValid)
             {
                 Customer customer = _mapper.Map<Customer>(model);
-                
                 bool isSaved = _customerManager.Add(customer);
+
                 if (isSaved)
                 {
                     return RedirectToAction("List", "Customer", null);
                 }
+
             }
 
             return View();
@@ -65,59 +59,58 @@ namespace NewEcommerce.Controllers
         public IActionResult List()
         {
             // get all customers from db 
+
             ICollection<Customer> customers = _customerManager.GetAll();
-
-
 
             //show the customers in VIEW
             return View(customers);
         }
+
+        //customer/edit/id
         public IActionResult Edit(int? id)
         {
-            var model = new CustomerEditViewModel();
-            model.CustomerTypeItems = _customerTypeManager
-                .GetAll()
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString()
-                }).ToList();
-            if (id!= null && id > 0)
+
+            if (id != null && id > 0)
             {
                 Customer existingCustomer = _customerManager.GetById(id);
-                if(existingCustomer != null)
+
+                if (existingCustomer != null)
                 {
-                    _mapper.Map<Customer, CustomerEditViewModel>(existingCustomer, model);
+                    return View(existingCustomer);
                 }
+
             }
-            
-            
-            return View(model);
+
+            return View();
+
         }
+
         [HttpPost]
         public IActionResult Edit(Customer customer)
         {
+            bool isUpdated = _customerManager.Update(customer);
 
-            bool IsUpdated = _customerManager.Update(customer);
-            if (IsUpdated)
+            if (isUpdated)
             {
                 return RedirectToAction("List");
             }
+
             return View(customer);
         }
+
         public IActionResult Delete(int? id)
         {
-            if(id!=null && id > 0)
+            if (id != null && id > 0)
             {
                 var customer = _customerManager.GetById(id);
-                bool isSaved = _customerManager.Remove(customer);
-                if (isSaved)
+
+                bool isdelete = _customerManager.Remove(customer);
+                if (isdelete)
                 {
                     return RedirectToAction("List");
                 }
             }
             return RedirectToAction("List");
         }
-
     }
 }

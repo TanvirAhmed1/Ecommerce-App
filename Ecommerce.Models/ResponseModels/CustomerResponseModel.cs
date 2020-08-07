@@ -10,7 +10,7 @@ namespace Ecommerce.Models.ResponseModels
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Phone { get; set; }
+        public string PhoneNo { get; set; }
         public string Address { get; set; }
     }
 }

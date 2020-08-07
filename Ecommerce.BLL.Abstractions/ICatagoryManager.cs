@@ -1,12 +1,13 @@
-﻿using Ecommerce.Models.EntityModels;
+﻿using Ecommerce.BLL.Abstractions.Base;
+using Ecommerce.Models.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Ecommerce.BLL.Abstractions
 {
-    public interface ICatagoryManager
+    public interface ICatagoryManager : IManager<Catagory>
     {
-        public ICollection<Catagory> GetAll();
+        Catagory GetById(int? id);
     }
 }

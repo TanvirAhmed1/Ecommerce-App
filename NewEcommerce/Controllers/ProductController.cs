@@ -11,114 +11,109 @@ using Ecommerce.BLL.Abstractions;
 using Ecommerce.Models.ResponseModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace NewEcommerce.Controllers
 {
     public class ProductController : Controller
     {
-        IProductManager _productManager;
-        ICatagoryManager _catagoryManager;
-        IMapper _mapper;
-        public ProductController(IProductManager productManager, IMapper mapper, ICatagoryManager catagoryManager)
+        IProductManager productManager;
+        ICatagoryManager catagoryManager;
+        public ProductController(IProductManager _productManager, ICatagoryManager _catagoryManager)
         {
-            _productManager = productManager;
-            _catagoryManager = catagoryManager;
-            _mapper = mapper;
+            productManager = _productManager;
+            catagoryManager = _catagoryManager;
         }
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult Create()
         {
             ProductCreateViewModel product = new ProductCreateViewModel();
-            product.CustomerList = _productManager.GetAll().Select(c => _mapper.Map<ProductResponseModel>(c)).ToList();
-            product.CatagoryItems = _catagoryManager
-                .GetAll()
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString()
-                }).ToList();
+            product.CatagoryItem = catagoryManager.GetAll()
+                                                   .Select(c => new SelectListItem()
+                                                   {
+                                                       Text = c.Name,
+                                                       Value = c.Id.ToString()
+                                                   }).ToList();
             return View(product);
         }
-
         [HttpPost]
-        public IActionResult Create(ProductCreateViewModel model)
+        public async Task<IActionResult> Create(ProductCreateViewModel entity, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
-                Product product = _mapper.Map<Product>(model);
-
-                bool isSaved = _productManager.Add(product);
-                if (isSaved)
+                Product product = new Product()
                 {
-                    return RedirectToAction("List", "Product", null);
+                    Name = entity.Name,
+                    Quantity = entity.Quantity,
+                    Code = entity.Code,
+                    Price = entity.Price,
+                    CategoryId = entity.CategoryId
+                };
+
+                if (Image.Length > 0)
+                {
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        await Image.CopyToAsync(stream);
+                        product.Image = stream.ToArray();
+                    }
+                }
+
+                bool isSave = productManager.Add(product);
+                if (isSave)
+                {
+                    return RedirectToAction("List");
                 }
             }
-
             return View();
         }
 
-
         public IActionResult List()
         {
-            // get all customers from db 
-            ICollection<Product> products = _productManager.GetAll();
-
-
-
-            //show the customers in VIEW
+            ICollection<Product> products = productManager.GetAll();
             return View(products);
         }
+
         public IActionResult Edit(int? id)
         {
-            var model = new ProductEditViewModel();
-            model.CatagoryItems = _catagoryManager
-                .GetAll()
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString()
-                }).ToList();
             if (id != null && id > 0)
             {
-                Product existingProduct = _productManager.GetById(id);
-                if (existingProduct != null)
+                Product product = productManager.GetById(id);
+                if (id != null)
                 {
-                    _mapper.Map<Product, ProductEditViewModel>(existingProduct, model);
+                    return View(product);
                 }
             }
-
-
-            return View(model);
+            return View();
         }
+
         [HttpPost]
         public IActionResult Edit(Product product)
         {
-
-            bool IsUpdated = _productManager.Update(product);
-            if (IsUpdated)
+            bool isSave = productManager.Update(product);
+            if (isSave)
             {
                 return RedirectToAction("List");
             }
             return View(product);
         }
+
         public IActionResult Delete(int? id)
         {
             if (id != null && id > 0)
             {
-                var product = _productManager.GetById(id);
-                bool isSaved = _productManager.Remove(product);
-                if (isSaved)
+                Product product = productManager.GetById(id);
+                bool isSave = productManager.Remove(product);
+                if (isSave)
                 {
                     return RedirectToAction("List");
                 }
             }
             return RedirectToAction("List");
         }
-
     }
 }
