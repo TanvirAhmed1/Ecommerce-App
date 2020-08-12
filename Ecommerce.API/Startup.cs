@@ -2,21 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Ecommerce.BLL;
-using Ecommerce.BLL.Abstractions;
-using Ecommerce.Database.Database;
-using Ecommerce.Repositories;
-using Ecommerce.Repositories.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace NewEcommerce
+namespace Ecommerce.API
 {
     public class Startup
     {
@@ -30,9 +23,8 @@ namespace NewEcommerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             Ecommerce.Configuration.ConfigureServices.Configure(services);
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

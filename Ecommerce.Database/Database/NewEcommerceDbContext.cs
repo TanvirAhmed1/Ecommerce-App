@@ -17,7 +17,7 @@ namespace Ecommerce.Database.Database
         {
             base.OnConfiguring(optionsBuilder);
 
-            string connectionString = "Server=(local); Database=NewEcommerceDB; Integrated Security=true";
+            string connectionString = "Server=(local); Database=NewEcommerceDB007; Integrated Security=true";
             optionsBuilder.UseSqlServer(connectionString);
         }
 

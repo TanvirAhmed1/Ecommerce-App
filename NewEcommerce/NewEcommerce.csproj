@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.BLL\Ecommerce.BLL.csproj" />
+    <ProjectReference Include="..\Ecommerce.BLL.Abstractions\Ecommerce.BLL.Abstractions.csproj" />
+    <ProjectReference Include="..\Ecommerce.Configuration\Ecommerce.Configuration.csproj" />
     <ProjectReference Include="..\Ecommerce.Models\Ecommerce.Models.csproj" />
   </ItemGroup>
 
