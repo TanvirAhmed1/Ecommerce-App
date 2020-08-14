@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,7 @@ namespace Ecommerce.API
         public void ConfigureServices(IServiceCollection services)
         {
             Ecommerce.Configuration.ConfigureServices.Configure(services);
+            services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddControllersWithViews();
         }
 

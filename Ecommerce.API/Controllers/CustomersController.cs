@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Ecommerce.BLL.Abstractions;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Models.RequestModels;
@@ -15,9 +16,11 @@ namespace Ecommerce.API.Controllers
     public class CustomersController : ControllerBase
     {
         ICustomerManager _customerManager;
-        public CustomersController(ICustomerManager customerManager)
+        IMapper _mapper;
+        public CustomersController(ICustomerManager customerManager, IMapper mapper)
         {
-            _customerManager = customerManager;     
+            _customerManager = customerManager;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetCustomers([FromQuery]CustomerRequestModel customer)
@@ -42,6 +45,29 @@ namespace Ecommerce.API.Controllers
                 return NotFound();
             }
             return Ok(customer);
+        }
+        [HttpPost]
+        public IActionResult CustomerCreate([FromBody] CustomerCreateDTO customerDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var customerIntity = _mapper.Map<Customer>(customerDTO);
+                bool isSaved = _customerManager.Add(customerIntity);
+                if (isSaved)
+                {
+                    customerDTO.Id = customerIntity.Id;
+                    return Ok(customerDTO);
+                }
+                else
+                {
+                    return BadRequest("Customer Could Not Be Saved");
+                }
+
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }
