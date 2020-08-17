@@ -21,19 +21,17 @@ namespace NewEcommerce.Controllers
         }
         public IActionResult Create()
         {
-
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Catagory model)
+        public IActionResult Create(Catagory newCatagory)
         {
-
             if (ModelState.IsValid)
             {
                 Catagory catagory = new Catagory();
-                catagory.Id = model.Id;
-                catagory.Name = model.Name;
+                catagory.Id = newCatagory.Id;
+                catagory.Name = newCatagory.Name;
 
                 bool isSaved = _catagoryManager.Add(catagory);
 
@@ -41,27 +39,21 @@ namespace NewEcommerce.Controllers
                 {
                     return RedirectToAction("List", "Category", null);
                 }
-
             }
-
             return View();
         }
 
 
         public IActionResult List()
-        {
-            // get all customers from db 
-
+        {            
             ICollection<Catagory> catagories = _catagoryManager.GetAll();
-
-            //show the customers in VIEW
+            
             return View(catagories);
         }
 
         //customer/edit/id
         public IActionResult Edit(int? id)
         {
-
             if (id != null && id > 0)
             {
                 Catagory existingCatagory = _catagoryManager.GetById(id);
@@ -70,11 +62,8 @@ namespace NewEcommerce.Controllers
                 {
                     return View(existingCatagory);
                 }
-
             }
-
             return View();
-
         }
 
         [HttpPost]
@@ -86,7 +75,6 @@ namespace NewEcommerce.Controllers
             {
                 return RedirectToAction("List");
             }
-
             return View(catagory);
         }
 
@@ -95,7 +83,6 @@ namespace NewEcommerce.Controllers
             if (id != null && id > 0)
             {
                 var catagory = _catagoryManager.GetById(id);
-
                 bool isdelete = _catagoryManager.Remove(catagory);
                 if (isdelete)
                 {

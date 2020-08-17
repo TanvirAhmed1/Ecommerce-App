@@ -16,7 +16,6 @@ namespace NewEcommerce.Models
         public string Code { get; set; }
         public int? CategoryId { get; set; }
         public byte[] Image { get; set; }
-
         public ICollection<SelectListItem> CatagoryItem { get; set; }
     }
 }

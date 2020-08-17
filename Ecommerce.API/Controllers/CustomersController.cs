@@ -32,7 +32,7 @@ namespace Ecommerce.API.Controllers
             }
             return Ok(result);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name ="GetById")]
         public IActionResult GetCustomerById(int id)
         {
             if (id <= 0)
@@ -56,7 +56,7 @@ namespace Ecommerce.API.Controllers
                 if (isSaved)
                 {
                     customerDTO.Id = customerIntity.Id;
-                    return Ok(customerDTO);
+                    return CreatedAtRoute("GetById", new {id=customerDTO.Id }, customerDTO);
                 }
                 else
                 {

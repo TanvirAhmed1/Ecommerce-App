@@ -16,7 +16,6 @@ namespace NewEcommerce.Models
         public string PhoneNo { get; set; }
         public string Address { get; set; }
         public bool IsDeleted { get; set; }
-
         public ICollection<CustomerResponseModel> CustomerList { get; set; }
     }
 }
