@@ -13,6 +13,8 @@ namespace Ecommerce.API.AutomapperProfile
         public EcommerceAPIAutomapperProfile()
         {
             CreateMap<CustomerCreateDTO, Customer>();
+            CreateMap<CustomerUpdateDTO, Customer>();
+            CreateMap<Customer, CustomerUpdateDTO>();
         }
     }
 }

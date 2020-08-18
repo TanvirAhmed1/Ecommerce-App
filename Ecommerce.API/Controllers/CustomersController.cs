@@ -7,6 +7,7 @@ using Ecommerce.BLL.Abstractions;
 using Ecommerce.Models.EntityModels;
 using Ecommerce.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers
@@ -69,5 +70,58 @@ namespace Ecommerce.API.Controllers
                 return BadRequest(ModelState);
             }
         }
+        public IActionResult PutCustomer(int id,[FromBody] CustomerUpdateDTO CustomerDTO)
+        {
+            try
+            {
+                var existingCustomer = _customerManager.GetById(id);
+                if (existingCustomer == null)
+                {
+                    return NotFound();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var customer = _mapper.Map(CustomerDTO, existingCustomer);
+                
+                bool IsUpdated = _customerManager.Update(customer);
+                if (IsUpdated)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Update Failed!");
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("System Error Occured!");
+            }
+            
+
+        }
+        public IActionResult PatchCustomer(int id, [FromBody] JsonPatchDocument<CustomerUpdateDTO> patchDoc)
+        {
+            var existingCustomer = _customerManager.GetById(id);
+            if (existingCustomer == null)
+            {
+                return NotFound();
+            }
+            var customerDto = _mapper.Map<CustomerUpdateDTO>(existingCustomer);
+            patchDoc.ApplyTo(customerDto);
+            _mapper.Map(customerDto, existingCustomer);
+            bool IsUpdated = _customerManager.Update(existingCustomer);
+            if (IsUpdated)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Update Failed!");
+            }
+        }
+        
     }
 }
